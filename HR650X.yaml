@@ -4,11 +4,13 @@ ipmi:
   password: xxx
 
 fan_speeds:
-  - temp_range: [0, 40] 
+  - temp_range: [0, 5] # when the system is off
+    speed: 2
+  - temp_range: [5, 40]
     speed: 10
-  - temp_range: [40, 45] # relatively quiet
-    speed: 12
-  - temp_range: [45, 50] # relatively noisy
+  - temp_range: [40, 45]
+    speed: 14
+  - temp_range: [45, 50]
     speed: 20
   - temp_range: [50, 60]
     speed: 50
