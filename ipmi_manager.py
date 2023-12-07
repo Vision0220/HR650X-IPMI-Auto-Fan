@@ -1,10 +1,11 @@
 '''
 Author: Yuzhuo Wu
 Date: 2023-12-07 19:19:28
-LastEditTime: 2023-12-07 19:52:27
+LastEditTime: 2023-12-07 20:02:43
 LastEditors: Yuzhuo Wu
 Description: 
 FilePath: \HR650X-IPMI-Auto-Fan\ipmi_manager.py
+今天也是认真工作的一天呢
 '''
 import subprocess
 import re
@@ -29,10 +30,15 @@ def get_temperature(ipmi):
     temperatures = []
 
     for line in lines:
-        if line.split('|')[1].strip() == 'na':
-            temperatures.append(float(0))  
-            print('The system is off, tempature is na')
-        elif 'Temp' in line:
+        try:
+            if line.split('|')[1].strip() == 'na':
+                temperatures.append(float(0))  
+                print('The system is off, tempature is na')
+                continue
+        except IndexError as err:
+            print(f"Error: {err}")
+            continue
+        if 'Temp' in line:
             temp = re.findall(r'\d+\.\d+', line)
             if temp:
                 temperatures.append(float(temp[0]))
@@ -40,7 +46,10 @@ def get_temperature(ipmi):
     if not temperatures:
         print("No temperature data found.")
         return None
-
+    
+    # print(lines)
+    # print(temperatures)
+    
     return max(temperatures)
 
 
